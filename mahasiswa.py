@@ -2,6 +2,7 @@
 # project  : indexe
 # desc	   : Ambil informasi mahasiswa dari Kemdikbud
 # author   : abay@codelatte.org
+# usage    : ./mahasiswa.py -m [NAMA/NIM]
 
 import re, sys, requests, argparse, json
 
