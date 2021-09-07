@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# desc		    : hasil dump user (email & password) dari DB trus pengen mass crack passwordnya.
+# desc		: hasil dump user (email & password) dari DB trus pengen mass crack passwordnya.
 # file content	: email,password
 # require https://github.com/s0md3v/Hash-Buster
 
