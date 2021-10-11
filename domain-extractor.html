@@ -1,0 +1,145 @@
+<!-- https://abay.kustirama.id/domain-extractor -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Domain Extractor | kustirama.id</title>
+        <link rel="shortcut icon" href="https://akbar.kustirama.id/icon.svg" />
+
+        <meta name="description" content="Simple Metronome" />
+        <meta name="keywords" content="abay,akbar,abaykan,mukhammad akbar,codelatte" />
+        <meta name="author" content="kustirama.id" />
+
+        <meta property="og:title" content="akbar | kustirama.id" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="akbar | kustirama.id" />
+        <meta property="og:description" content="Simple Metronome" />
+        <meta property="og:url" content="https://akbar.kustirama.id" />
+        <meta property="og:image:alt" content="akbar | kustirama.id" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@abaykandotcom" />
+        <meta name="twitter:creator" content="@abaykandotcom" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+        <style>
+            BODY {
+                font: 16px/1.4 "Trebuchet MS", Arial, sans-serif;
+                color: #000;
+            }
+
+            A {
+                color: steelblue;
+            }
+
+            H1 {
+                font: 2em/1.4 Georgia, serif;
+                text-align: center;
+            }
+
+            P {
+                margin: 1.2rem 0;
+            }
+
+            TEXTAREA {
+                width: 100%;
+                height: 150px;
+                margin: 0;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                font-size: 13px;
+                font-family: monospace;
+            }
+
+            .wrapper {
+                width: 650px;
+                margin: 1.5rem auto 4rem;
+            }
+
+            .header {
+                position: relative;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .header:before {
+                content: "";
+                display: table;
+                width: 100%;
+                clear: both;
+            }
+
+            .footer {
+                position: absolute;
+                bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 1px solid #ccc;
+            }
+
+            .containers {
+                margin-bottom: 32px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .container {
+                position: relative;
+                width: 100%;
+                margin-bottom: 1em;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+
+    <body translate="no">
+        <div class="wrapper">
+            <header class="header">
+                <h1>Domain Extractor</h1>
+            </header>
+
+            <main>
+                <div class="containers">
+                    <div class="container container--left">
+                        <h4>URL List:</h4>
+                        <textarea id="list" spellcheck="false"></textarea>
+                    </div>
+
+                    <button onclick="return extract()">Extract</button>
+
+                    <div class="container container--right container container--result" style="margin-top: 50px;">
+                        <h4>Extracted Domain:</h4>
+                        <textarea id="result" spellcheck="false"></textarea>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="footer">
+                <a href="https://twitter.com/kustirama">@kustirama</a>
+            </footer>
+
+            <script>
+            	function getDomain(url) {
+				    var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+				    if ( match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0 ) return match[2];
+				}
+
+	            function extract() {
+	            	let listbaru = "";
+	            	var list = document.getElementById('list').value.split('\n');
+	            	for(var i = 0;i < list.length;i++){
+	            		listbaru += getDomain(list[i]) + "\n"
+					    console.log(getDomain(list[i]))
+					}
+					document.getElementById('result').value = listbaru;
+	            }
+            </script>
+        </div>
+    </body>
+</html>
