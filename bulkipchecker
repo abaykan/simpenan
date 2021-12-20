@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Usage: ./bulkipchecker iplist.txt
+#
+
+import sys, requests, warnings, json, time
+
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+
+def unique(list1):
+    unique_list = []
+    ott = []
+    
+    for x in list1:
+        if x not in unique_list:
+            unique_list.append(x)
+    for x in unique_list:
+        ott.append(x)
+    return ott
+
+def freq(item, lst):
+    return lst.count(item)
+
+def percent(part, whole):
+    percentage = 100 * float(part)/float(whole)
+    return format(percentage, ".2f") + "%"
+
+def gass(listip):
+    print("> Checking IPs ...")
+    output = []
+    count = 0
+    for ip in listip:
+        count += 1
+        try:
+            response = requests.get('https://api.kustirama.id/-_-/ip/' + ip.strip(), verify=False)
+            data = json.dumps(response.json())
+            data = json.loads(data)
+            output.append(data['result']['country_name'])
+        except KeyError as e:
+            print("Error: " + ip)
+            print(data)
+            continue
+
+        print("[" + str(count) + "/" + str(len(listip)) +"] " + ip + " ~> " + data['result']['country_name'])
+        if count % 5 == 0:
+            time.sleep(1)
+
+    uniq = unique(output)
+    print("\n> Country Percentage ")
+
+    persen = {}
+    for o in uniq:
+        persen[o] = percent(freq(o, output), len(output))
+    
+    hasil = dict(sorted(persen.items(), key=lambda item: item[1], reverse=True))
+    print("\n".join(['%s: %s' % (key, value) for (key, value) in hasil.items()]))
+    sys.exit(1)
+    
+
+
+if __name__ == '__main__':
+    f = open(sys.argv[1], "r")
+
+    lupip = f.read().splitlines()
+    if len(lupip) == 1:
+        gass(lupip[0].split())
+    else:
+        gass(lupip)
