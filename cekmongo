@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # project  : cekmongo
-# usage    : ./cekmongo -l list-ip-or-domain.txt
+# usage    : ./cekmongo.py -l list-ip-or-domain.txt
 # desc	   : MongoDB by default does not enforce authentication. In many situations, this may allow anyone on the network to access all data within the database.
 # author   : akbar@kustirama.id
 
@@ -20,10 +20,17 @@ parser.add_argument('-l', '--list', required=True, help="List IP/Domain(s)")
 parser.add_argument('-t', '--thread', required=False, help="Thread(s) Num")
 args = parser.parse_args()
 
+def save_result(data):
+    f = open('result.txt', 'a+')
+    f.write(data)
+    f.close()
+
+
 def get_database(host):
     try:
         client = MongoClient(host=host, serverSelectionTimeoutMS=3000)
         dbs = len(client.list_database_names())
+        save_result("%s - %s Databases\n" % (host, dbs))
         print(f"{Fore.GREEN}%s{Style.RESET_ALL} - %s Databases" % (host, dbs))
     except ConnectionFailure:
         print("%s - error" % (host))
@@ -56,6 +63,7 @@ def main():
                     pass
         
         list_host.close()
+        print("\n------ Done ------")
 
 if __name__ == '__main__':
     try:
