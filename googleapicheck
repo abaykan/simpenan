@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# usage: python3 gmapsapicheck or ./gmapsapicheck -api "APIKEY"
+# usage: python3 googleapicheck or ./googleapicheck -api "APIKEY"
 
 import requests
 import warnings
@@ -231,7 +231,7 @@ def scan_gmaps(apikey):
 warnings.filterwarnings("ignore")
 banner = """       .-.      _______  
       {}``; |==|_______D 
-      / ('        /|\     GMAPS API Key 
+      / ('        /|\     Google API Key 
   (  /  |        / | \       Checker
   \(_)_]]      /  |  \  
           github.com/abaykan
@@ -245,14 +245,14 @@ if len(sys.argv) > 1:
 			scan_gmaps(sys.argv[2])
 		else:
 			print("Missing api key, aborting.")
-			print("Either use -api as argument such \"python3 gmapsapicheck -api KEY\" or directly run script as \"python3 gmapsapicheck\" and supply API key via input.")
+			print("Either use -api as argument such \"python3 googleapicheck -api KEY\" or directly run script as \"python3 googleapicheck\" and supply API key via input.")
 	elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
-		print("Either use -api as argument such \"python3 gmapsapicheck -api KEY\" or directly run script as \"python3 gmapsapicheck\" and supply API key via input.")
+		print("Either use -api as argument such \"python3 googleapicheck -api KEY\" or directly run script as \"python3 googleapicheck\" and supply API key via input.")
 	else:
 		print("Invalid arguments, aborting.")
-		print("Either use -api as argument such \"python3 gmapsapicheck -api KEY\" or directly run script as \"python3 gmapsapicheck\" and supply API key via input.")
+		print("Either use -api as argument such \"python3 googleapicheck -api KEY\" or directly run script as \"python3 googleapicheck\" and supply API key via input.")
 else:
-	apikey = input("Please enter the Google Maps API key you wanted to test: ")
+	apikey = input("Please enter the Google API Key key you wanted to test: ")
 	print("\n" + banner)
 	print("API Key: " + apikey + "\n")
 	scan_gmaps(apikey)
