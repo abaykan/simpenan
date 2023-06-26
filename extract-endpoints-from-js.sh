@@ -1,8 +1,9 @@
 #!/bin/bash
 # Usage: ./extract-endpoints-from-js.sh /tmp/l.txt
 
-GREEN='\033[0;32m'  # ANSI escape sequence for green color
-NC='\033[0m'       # ANSI escape sequence to reset color
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 echo -e " /\_/\  "
 echo -e "( o.o )  Extract Endpoint(s) from JS Files~"
@@ -29,17 +30,27 @@ fi
 
 # Read the input file line by line
 while IFS= read -r line; do
-  echo -e "${GREEN}URL${NC}: $line"
+  echo -e "[${CYAN}extracting_url${NC}] $line"
   # Perform curl command with the line as a parameter and pipe the output to extract.rb
   output=$(curl -s "$line" | grep -oh "\"\/[a-zA-Z0-9_/?=&]*\"" | sed -e 's/^"//' -e 's/"$//' | sort -u)
 
   # Check if the output contains a forward slash (/)
   if [[ $output == *"/"* ]]; then
-    output_length=${#output}
-    if (( output_length <= 500 )); then
-      echo "$output" | tee -a "$output_file"
+    domain=$(echo $line | awk -F/ '{print $1 "//" $3}')
+    # check if output have more than one line
+    if [[ $output == *$'\n'* ]]; then
+      while IFS= read -r outputline; do
+        output_length=${#outputline}
+        if (( output_length <= 500 )); then
+          echo -e "[${GREEN}found${NC}] $domain$outputline"
+          echo "$domain$outputline" >> "$output_file"
+        fi
+      done <<< "$output"
+    else
+      echo -e "[${GREEN}found${NC}] $domain$output"
+      echo "$domain$output" >> "$output_file"
     fi
   fi
 done < "$input_file"
 
-echo -e "\n${GREEN}Output File${NC}: $output_file"
+echo -e "[${CYAN}result_file${NC}] $output_file"
