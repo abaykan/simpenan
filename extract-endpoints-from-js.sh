@@ -1,6 +1,4 @@
 #!/bin/bash
-# Get extract.rb from https://github.com/jobertabma/relative-url-extractor/blob/master/extract.rb
-#
 # Usage: ./extract-endpoints-from-js.sh /tmp/l.txt
 
 GREEN='\033[0;32m'  # ANSI escape sequence for green color
@@ -9,7 +7,7 @@ NC='\033[0m'       # ANSI escape sequence to reset color
 echo -e " /\_/\  "
 echo -e "( o.o )  Extract Endpoint(s) from JS Files~"
 echo -e " > ^ < "
-echo "Optional: -o output.txt"
+echo "optional: -o output.txt"
 echo -e "---------------------------------------------"
 
 # Check if the input file argument is provided
@@ -21,14 +19,11 @@ echo -e "\nList: $1\n"
 # Assign the input file argument to a variable
 input_file="$1"
 
-# Replace 'extract.rb' with the path to your 'extract.rb' script
-extract_script="extract.rb"
-
 # Check if the -o option is provided with a filename
 if [ "$2" == "-o" ] && [ ! -z "$3" ]; then
   output_file="$3"
 else
-  random_string=$(date +%s%N | md5sum | awk '{print $1}')
+  random_string=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 10)
   output_file="/tmp/$random_string.txt"
 fi
 
@@ -36,7 +31,7 @@ fi
 while IFS= read -r line; do
   echo -e "${GREEN}URL${NC}: $line"
   # Perform curl command with the line as a parameter and pipe the output to extract.rb
-  output=$(curl -s "$line" | "$extract_script")
+  output=$(curl -s "$line" | grep -oh "\"\/[a-zA-Z0-9_/?=&]*\"" | sed -e 's/^"//' -e 's/"$//' | sort -u)
 
   # Check if the output contains a forward slash (/)
   if [[ $output == *"/"* ]]; then
@@ -47,4 +42,4 @@ while IFS= read -r line; do
   fi
 done < "$input_file"
 
-echo -e "\nOutput File: $output_file"
+echo -e "\n${GREEN}Output File${NC}: $output_file"
