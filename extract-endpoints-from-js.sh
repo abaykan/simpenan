@@ -31,7 +31,6 @@ fi
 # Read the input file line by line
 while IFS= read -r line; do
   echo -e "[${CYAN}extracting_url${NC}] $line"
-  # Perform curl command with the line as a parameter and pipe the output to extract.rb
   output=$(curl -s "$line" | grep -oh "\"\/[a-zA-Z0-9_/?=&]*\"" | sed -e 's/^"//' -e 's/"$//' | sort -u)
 
   # Check if the output contains a forward slash (/)
