@@ -1,4 +1,5 @@
 <?php
+// Dipake gara2 gabisa pake adminer karena web target ada masalah gabisa simpen session mysql
 // error_reporting(0);
 
 $db_host = "";
